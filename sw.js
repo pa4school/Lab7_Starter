@@ -20,7 +20,7 @@ self.addEventListener('activate', function (event) {
 });
 
 // Intercept fetch requests and cache them
-self.addEventListener('fetch', function (event) {
+self.addEventListener('fetch', async function (event) {
   // We added some known URLs to the cache above, but tracking down every
   // subsequent network request URL and adding it manually would be very taxing.
   // We will be adding all of the resources not specified in the intiial cache
@@ -34,7 +34,22 @@ self.addEventListener('fetch', function (event) {
   /*******************************/
   // B7. TODO - Respond to the event by opening the cache using the name we gave
   //            above (CACHE_NAME)
+
   // B8. TODO - If the request is in the cache, return with the cached version.
   //            Otherwise fetch the resource, add it to the cache, and return
   //            network response.
+  // Is this request already in the cache?
+  if (event.request.url.includes('recipes.json')) {
+    // Open the cache
+    event.respondWith(
+      // Respond with the cached version or from the network
+      caches.open(CACHE_NAME).then(async function (cache) {
+        const response = await fetch(event.request)
+        cache.put(event.request, response.clone())
+        return response
+      })
+    );
+  } else {
+    return
+  }
 });
