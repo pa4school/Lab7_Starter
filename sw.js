@@ -16,9 +16,10 @@ self.addEventListener('install', function (event) {
         'https://introweb.tech/assets/json/4_50-indulgent-thanksgiving-side-dishes-for-any-holiday-gathering.json',
         'https://introweb.tech/assets/json/5_healthy-thanksgiving-recipe-crockpot-turkey-breast.json',
         'https://introweb.tech/assets/json/6_one-pot-thanksgiving-dinner.json',
-      ]);
+        'assets/scripts/main.js',
+      ])
     })
-  );
+  )
 });
 
 // Activates the service worker
@@ -59,7 +60,7 @@ self.addEventListener('fetch', async function (event) {
           // If the request is NOT in the cache, fetch and cache
           return fetch(event.request).then(function (response) {
             cache.put(event.request, response.clone())
-            return response;
+            return response
           })
         })
       })
@@ -84,29 +85,4 @@ self.addEventListener('fetch', async function (event) {
       })
     )
   }
-
-
-  // if (event.request.url.includes('recipes.json')) {
-  //   // Open the cache
-  //   event.respondWith(
-  //     // Respond with the cached version or from the network
-  //     caches.open(CACHE_NAME).then(async function (cache) {
-  //       const response = await fetch(event.request)
-  //       cache.put(event.request, response.clone())
-  //       return response
-  //     })
-  //   );
-  // } 
-  // else if (event.request.url.includes('image')) {
-  //   // Open the cache
-  //   event.respondWith(
-  //     // Response with cached first
-
-
-  //   );
-  // }
-
-  // else {
-  //   return 
-  // }
 });
