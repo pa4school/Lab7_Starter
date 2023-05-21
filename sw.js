@@ -52,15 +52,7 @@ self.addEventListener('fetch', async function (event) {
       caches.open(CACHE_NAME).then(function (cache) {
         return cache.match(event.request).then(function (response) {
           // If the request is in the cache
-          if (response) {
-            // Return the cached version
-            return response;
-          }
-          // If the request is NOT in the cache, fetch and cache
-          return fetch(event.request).then(function (response) {
-            cache.put(event.request, response.clone())
-            return response
-          })
+          return response || fetch(event.request)
         })
       })
     )
@@ -69,17 +61,9 @@ self.addEventListener('fetch', async function (event) {
   else {
     event.respondWith(
       caches.open(CACHE_NAME).then(function (cache) {
-        return cache.match(event.request).then(function (response) {
+        cache.match(event.request).then(function (response) {
           // If the request is in the cache
-          if (response) {
-            // Return the cached version
-            return response;
-          }
-          // If the request is NOT in the cache, fetch and cache
-          return fetch(event.request).then(function (response) {
-            cache.put(event.request, response.clone())
-            return response
-          })
+          return response || fetch(event.request)
         })
       })
     )
