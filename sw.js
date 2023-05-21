@@ -50,7 +50,7 @@ self.addEventListener('fetch', async function (event) {
   if (event.request.destination === 'image') {
     event.respondWith(
       caches.open(CACHE_NAME).then(function (cache) {
-        return cache.match(event.request).then(function (response) {
+        cache.match(event.request).then(function (response) {
           // If the request is in the cache
           return response || fetch(event.request)
         })
