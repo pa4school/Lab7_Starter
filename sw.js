@@ -16,8 +16,6 @@ self.addEventListener('install', function (event) {
         'https://introweb.tech/assets/json/4_50-indulgent-thanksgiving-side-dishes-for-any-holiday-gathering.json',
         'https://introweb.tech/assets/json/5_healthy-thanksgiving-recipe-crockpot-turkey-breast.json',
         'https://introweb.tech/assets/json/6_one-pot-thanksgiving-dinner.json',
-        'assets/scripts/main.js',
-        'assets/scripts/RecipeCard.js',
       ])
     })
   )
