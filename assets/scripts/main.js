@@ -56,7 +56,7 @@ function initializeServiceWorker() {
       // B5. TODO - In the event that the service worker registration fails, console
       //            log that it has failed.
       navigator.serviceWorker
-        .register('./sw.js', { scope: '/' })
+        .register('./sw.js', { scope: '.' })
         .then((reg) => console.log(`Service Worker: Registered ${reg.scope}`))
         .catch((err) => console.log(`Service Worker Registration failed with: Error: ${err}`))
     })
@@ -137,7 +137,7 @@ async function getRecipes() {
  * @param {Array<Object>} recipes An array of recipes
  */
 function saveRecipesToStorage(recipes) {
-  localStorage.setItem('recipes', JSON.stringify(recipes));
+  localStorage.setItem('recipes', JSON.stringify(recipes))
 }
 
 /**
@@ -152,8 +152,8 @@ function addRecipesToDocument(recipes) {
   const main = document.querySelector('main');
 
   recipes.forEach((recipe) => {
-    let recipeCard = document.createElement('recipe-card');
-    recipeCard.data = recipe;
-    main.append(recipeCard);
+    let recipeCard = document.createElement('recipe-card')
+    recipeCard.data = recipe
+    main.append(recipeCard)
   });
 }

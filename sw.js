@@ -79,7 +79,7 @@ self.addEventListener('fetch', async function (event) {
           // If the request is NOT in the cache, fetch and cache
           return fetch(event.request).then(function (response) {
             cache.put(event.request, response.clone())
-            return response;
+            return response
           })
         })
       })
