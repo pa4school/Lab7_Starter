@@ -47,7 +47,7 @@ self.addEventListener('fetch', async function (event) {
   //            network response.
   // Is this request already in the cache?
   // Check if this request is already in the cache
-  if (event.request.destination === 'image') {
+  if (event.request.destination === 'image' || event.request.destination === 'style' || event.request.destination === 'script') {
     event.respondWith(
       caches.open(CACHE_NAME).then(function (cache) {
         cache.match(event.request).then(function (response) {
@@ -56,16 +56,7 @@ self.addEventListener('fetch', async function (event) {
         })
       })
     )
-  }
-
-  else {
-    event.respondWith(
-      caches.open(CACHE_NAME).then(function (cache) {
-        cache.match(event.request).then(function (response) {
-          // If the request is in the cache
-          return response || fetch(event.request)
-        })
-      })
-    )
+  } else {
+    return fetch(event.request)
   }
 });
