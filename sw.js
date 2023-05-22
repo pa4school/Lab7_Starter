@@ -2,7 +2,7 @@
 //         so do not move it next to the other scripts
 
 const CACHE_NAME = 'lab-7-starter'
-const DOMAINS = 'https://pa4school.github.io/'
+const DOMAINS = 'pa4school.github.io'
 
 
 // Installs the service worker. Feed it some initial URLs to cache
@@ -18,7 +18,7 @@ self.addEventListener('install', function (event) {
         'https://introweb.tech/assets/json/4_50-indulgent-thanksgiving-side-dishes-for-any-holiday-gathering.json',
         'https://introweb.tech/assets/json/5_healthy-thanksgiving-recipe-crockpot-turkey-breast.json',
         'https://introweb.tech/assets/json/6_one-pot-thanksgiving-dinner.json',
-        `${DOMAINS}/assets/scripts/RecipeCard.js`,
+        `https://${DOMAINS}/assets/scripts/RecipeCard.js`,
       ])
     })
   )
