@@ -26,30 +26,48 @@ self.addEventListener('activate', function (event) {
   event.waitUntil(self.clients.claim());
 });
 
-// Intercept fetch requests and cache them
 self.addEventListener('fetch', function (event) {
-  // B7. TODO - Respond to the event by opening the cache using the name we gave
-  //            above (CACHE_NAME)
-
-  // B8. TODO - If the request is in the cache, return with the cached version.
-  //            Otherwise fetch the resource, add it to the cache, and return
-  //            network response.
-  // Is this request already in the cache?
-  // Check if this request is already in the cache
-  if (event.request.cache === 'only-if-cached' && event.request.mode !== 'same-origin') {
-    return;
-  }
-
   event.respondWith(
-    caches.open(CACHE_NAME).then(function (cache) {
-      return cache.match(event.request).then(function (response) {
-        // If we have a response return it, otherwise fetch it from the network
-        return response || fetch(event.request).then(function (response) {
-          // Add the new response to the cache
-          cache.put(event.request, response.clone());
-          return response;
-        });
-      });
+    caches.match(event.request).then(function (response) {
+      // B7. TODO - Respond to requests for the root URL by returning the
+      //            cached home page from the cache RECIPE_CACHE_NAME
+      if (response) {
+        return response
+      }
+      return fetch(event.request).then(function (response) {
+        if (response.status === 404) {
+          return caches.match('pages/404.html')
+        }
+        return caches.open(CACHE_NAME).then(function (cache) {
+          cache.put(event.request.url, response.clone())
+          return response
+        })
+      })
     })
-  );
+  )
+
+  // B8. TODO - If the request URL matches anything in RECIPE_URLs,
+  //            respond with the cached version instead of fetching it
+  //            This will let the app work offline.
+  //            Don't forget to add the fetch listener above
+  //            and add RECIPE_URLs to the cache when the service worker
+  //            is installed
+  if (event.request.url.includes('introweb.tech/assets/json/')) {
+    event.respondWith(
+      caches.match(event.request).then(function (response) {
+        if (response) {
+          return response
+        }
+        return fetch(event.request).then(function (response) {
+          if (response.status === 404) {
+            return caches.match('pages/404.html')
+          }
+          return caches.open(CACHE_NAME).then(function (cache) {
+            cache.put(event.request.url, response.clone())
+            return response
+          })
+        })
+      })
+    )
+  }
 })
