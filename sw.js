@@ -2,7 +2,7 @@
 //         so do not move it next to the other scripts
 
 const CACHE_NAME = 'lab-7-starter'
-const DOMAINS = self.location.origin
+const DOMAINS = 'https://pa4school.github.io/'
 
 
 // Installs the service worker. Feed it some initial URLs to cache
