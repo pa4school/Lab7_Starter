@@ -36,23 +36,20 @@ self.addEventListener('fetch', function (event) {
   //            network response.
   // Is this request already in the cache?
   // Check if this request is already in the cache
-  if (event.request.destination === 'image' || event.request.destination === 'script') {
-    event.respondWith(
-      caches.match(event.request).then(function (response) {
-        if (response) return response
-        return fetch(event.request);
-      })
-    )
-  } else {
-    event.respondWith(
-      caches.open(CACHE_NAME).then(function (cache) {
-        return cache.match(event.request).then(function (response) {
-          return response || fetch(event.request).then(function (response) {
-            cache.put(event.request, response.clone())
-            return response
-          })
-        })
-      })
-    )
+  if (event.request.cache === 'only-if-cached' && event.request.mode !== 'same-origin') {
+    return;
   }
+
+  event.respondWith(
+    caches.open(CACHE_NAME).then(function (cache) {
+      return cache.match(event.request).then(function (response) {
+        // If we have a response return it, otherwise fetch it from the network
+        return response || fetch(event.request).then(function (response) {
+          // Add the new response to the cache
+          cache.put(event.request, response.clone());
+          return response;
+        });
+      });
+    })
+  );
 })
